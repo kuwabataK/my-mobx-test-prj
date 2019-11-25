@@ -1,5 +1,8 @@
 import {observable, action} from 'mobx'
 
+/**
+ * Mobxのカウンターストア
+ */
 export class CounterStore {
   /**
    * カウント
