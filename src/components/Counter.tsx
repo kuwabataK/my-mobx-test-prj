@@ -17,8 +17,9 @@ export const Counter = () => {
   useReaction(
     () => counterStore.count,
     () => {
-    console.log("再レンダリングされたよ！！");
-  });
+      console.log("再レンダリングされたよ！！");
+    }
+  );
 
   const incrementOutsideOfAction = () => {
     counterStore.count++; // @actionの外でcountを変更するとerrorが発生する(Vuexのmutation errorと同じ)
