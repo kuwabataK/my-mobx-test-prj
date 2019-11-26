@@ -13,6 +13,7 @@ export const Counter = observer(() => {
   return (
     <div>
       カウンター: {counterStore.count}
+      <p>childStoreのカウンター: {counterStore.childStore.count}</p>
       <p>
         <button onClick={() => counterStore.increment()}>
           カウントを増やす
@@ -21,6 +22,11 @@ export const Counter = observer(() => {
       <p>
         <button onClick={() => counterStore.decrement()}>
           カウントを減らす
+        </button>
+      </p>
+      <p>
+        <button onClick={() => counterStore.childStore.increment()}>
+          childStoreのincrementメソッドを呼び出す
         </button>
       </p>
       <p>
