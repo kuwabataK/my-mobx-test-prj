@@ -1,10 +1,24 @@
-import React from "react";
-import { observer } from "mobx-react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
+import { Observer } from "mobx-react";
 import { useStore } from "../store/store";
+import { useReaction } from "../util/custom-hooks";
 
-export const Counter = observer(() => {
+export const Counter = () => {
   // context経由でストアを取得
   const { counterStore } = useStore();
+
+  // 以下のuseEffectは、counterStore.countが変化しても発火しない
+  useEffect(() => {
+    console.log("再レンダリングされたよ！！。でもこのEffectは発火しないよ");
+  });
+
+  // useReactionを使えば変更検知できるようになる
+  useReaction(
+    () => counterStore.count,
+    () => {
+    console.log("再レンダリングされたよ！！");
+  });
 
   const incrementOutsideOfAction = () => {
     counterStore.count++; // @actionの外でcountを変更するとerrorが発生する(Vuexのmutation errorと同じ)
@@ -12,8 +26,10 @@ export const Counter = observer(() => {
 
   return (
     <div>
-      カウンター: {counterStore.count}
-      <p>childStoreのカウンター: {counterStore.childStore.count}</p>
+      <Observer>{() => <div>カウンター: counterStore.count</div>}</Observer>
+      <Observer>
+        {() => <p>childStoreのカウンター: {counterStore.childStore.count}</p>}
+      </Observer>
       <p>
         <button onClick={() => counterStore.increment()}>
           カウントを増やす
@@ -36,4 +52,4 @@ export const Counter = observer(() => {
       </p>
     </div>
   );
-});
+};
