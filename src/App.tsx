@@ -8,8 +8,6 @@ const App: React.FC = () => {
     <storeContext.Provider value={store}>
       <div className="App">
         <Counter></Counter>
-        <Counter></Counter>
-        <Counter></Counter>
       </div>
     </storeContext.Provider>
   );

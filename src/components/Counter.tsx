@@ -8,7 +8,7 @@ export const Counter = () => {
   // context経由でストアを取得
   const { counterStore } = useStore();
 
-  // 以下のuseEffectは、counterStore.countが変化しても発火しない
+  // 以下のuseEffect store.counterStore.countが変化しても発火しない
   useEffect(() => {
     console.log("再レンダリングされたよ！！。でもこのEffectは発火しないよ");
   });
@@ -27,9 +27,17 @@ export const Counter = () => {
 
   return (
     <div>
-      <Observer>{() => <div>カウンター: counterStore.count</div>}</Observer>
+      <Observer>{() => <div>カウンター: {counterStore.count}</div>}</Observer>
       <Observer>
         {() => <p>childStoreのカウンター: {counterStore.childStore.count}</p>}
+      </Observer>
+      <Observer>
+        {() => (
+          <p>
+            childStoreのParentカウンター(一番上と同じ値を参照している):{" "}
+            {counterStore.childStore.parentCnt}
+          </p>
+        )}
       </Observer>
       <p>
         <button onClick={() => counterStore.increment()}>
@@ -44,6 +52,11 @@ export const Counter = () => {
       <p>
         <button onClick={() => counterStore.childStore.increment()}>
           childStoreのincrementメソッドを呼び出す
+        </button>
+      </p>
+      <p>
+        <button onClick={() => counterStore.childStore.parentIncrement()}>
+          childStoreのparentIncrementメソッドを呼び出す
         </button>
       </p>
       <p>
