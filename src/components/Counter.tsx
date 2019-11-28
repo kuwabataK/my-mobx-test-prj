@@ -21,6 +21,10 @@ export const Counter = () => {
     }
   );
 
+  const {increment} = counterStore.mapActions()
+
+  const {superIncrement} = counterStore.childStore.mapActions()
+
   const incrementOutsideOfAction = () => {
     counterStore.count++; // @actionの外でcountを変更するとerrorが発生する(Vuexのmutation errorと同じ)
   };
@@ -57,6 +61,21 @@ export const Counter = () => {
       <p>
         <button onClick={() => counterStore.childStore.parentIncrement()}>
           childStoreのparentIncrementメソッドを呼び出す
+        </button>
+      </p>
+      <p>
+        <button onClick={increment}>
+          mapActionsを使ったincrement(動く)
+        </button>
+      </p>
+      <p>
+        <button onClick={() => superIncrement(1,1)}>
+          mapActionsを使ったsuperIncrement(2ずつ増える)
+        </button>
+      </p>
+      <p>
+        <button onClick={counterStore.increment}>
+          mapActionsを使わないincrement(動かない)
         </button>
       </p>
       <p>

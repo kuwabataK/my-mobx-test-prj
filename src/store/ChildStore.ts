@@ -26,6 +26,11 @@ export class ChildStore extends BaseStore {
     this.count += 1;
   }
 
+  @action
+  superIncrement(num1 :number,num2: number){
+      return this.count = num1 + num2 + this.count
+  }
+
   /**
    * 親であるcounterStoreのincrementを呼び出す
    * rootActionやrootMutation相当の機能を提供する
