@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import {BaseStore} from './BaseStore'
+import { BaseStore } from "./BaseStore";
 import { ChildStore } from "./ChildStore";
 
 /**
@@ -34,5 +34,5 @@ export class CounterStore extends BaseStore {
    * 下の階層にStoreを登録したいときはnewすれば良い
    * VuexのModule相当の機能
    */
-  childStore = new ChildStore(this.store)
+  childStore = new ChildStore(this.store);
 }

@@ -2,9 +2,9 @@ import { BaseStore } from "./BaseStore";
 import { computed, observable, action } from "mobx";
 
 export class ChildStore extends BaseStore {
-    /**
-     *  カウント
-     */
+  /**
+   *  カウント
+   */
   @observable count = 0;
 
   /**
@@ -13,6 +13,7 @@ export class ChildStore extends BaseStore {
    */
   @computed
   get parentCnt() {
+    console.log("parentCntが発火したよ");
     // this.storeをつかうことでstore全体を参照することができる
     return this.store.counterStore.count;
   }
