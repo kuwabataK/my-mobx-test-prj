@@ -17,16 +17,22 @@ export abstract class BaseStore {
    * 例えば以下のように使えます
    *
    * <pre><code>
+   *
    * const { increment } = store.counterStore.mapActions()
-   * return <button onClock={increment}></div>
+   *
+   * return <button onClock={increment}></button>
+   *
    * </code></pre>
    *
    * mapActionsを使わずに展開した関数はthisの参照が壊れてしまうので、うまく動かない場合があります。
    * 例えば以下のようなコードはうまく動きません
    *
    * <pre><code>
+   *
    * const { increment } = store.counterStore
-   * return <button onClock={increment}></div>
+   *
+   * return <button onClock={increment}></button>
+   *
    * </code></pre>
    *
    * また、メソッド以外のメンバは取得できません、すべてundefinedになります
