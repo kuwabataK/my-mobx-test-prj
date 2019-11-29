@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import { Observer } from "mobx-react";
+import { Observer, observer } from "mobx-react";
 import { useStore } from "../store/store";
 import { useReaction } from "../util/custom-hooks";
 
-export const Counter = () => {
+export const Counter = observer(() => {
   // context経由でストアを取得
   const { counterStore } = useStore();
 
@@ -21,9 +21,10 @@ export const Counter = () => {
     }
   );
 
-  const {increment} = counterStore.mapActions()
+  const { increment } = counterStore.mapActions();
+  const { count } = counterStore.mapGetters();
 
-  const {superIncrement} = counterStore.childStore.mapActions()
+  const { superIncrement } = counterStore.childStore.mapActions();
 
   const incrementOutsideOfAction = () => {
     counterStore.count++; // @actionの外でcountを変更するとerrorが発生する(Vuexのmutation errorと同じ)
@@ -31,7 +32,7 @@ export const Counter = () => {
 
   return (
     <div>
-      <Observer>{() => <div>カウンター: {counterStore.count}</div>}</Observer>
+      <Observer>{() => <div>カウンター: {count}</div>}</Observer>
       <Observer>
         {() => <p>childStoreのカウンター: {counterStore.childStore.count}</p>}
       </Observer>
@@ -64,12 +65,10 @@ export const Counter = () => {
         </button>
       </p>
       <p>
-        <button onClick={increment}>
-          mapActionsを使ったincrement(動く)
-        </button>
+        <button onClick={increment}>mapActionsを使ったincrement(動く)</button>
       </p>
       <p>
-        <button onClick={() => superIncrement(1,1)}>
+        <button onClick={() => superIncrement(1, 1)}>
           mapActionsを使ったsuperIncrement(2ずつ増える)
         </button>
       </p>
@@ -85,4 +84,4 @@ export const Counter = () => {
       </p>
     </div>
   );
-};
+});

@@ -51,7 +51,43 @@ export abstract class BaseStore {
     });
     return res as Omit<
       { [K in keyof this]: this[K] extends Function ? this[K] : undefined },
-      "mapActions"
+      "mapActions" | 'mapGetters'
+    >;
+  }
+
+  /**
+   * このストアに定義された変数の一覧を返します。VuexのmapStateとmapGettersを合わせたような機能を持っています。
+   * また実装の関係上、子ストアも出力されてしまいます。
+   * 以下のように使えます
+   *
+   * <pre><code>
+   *
+   * const { count } = store.counterStore.mapGetters()
+   *
+   * return <div>{count}</div>
+   *
+   * </code></pre>
+   *
+   * ただし、プリミティブな値を利用する場合には、mapGettersを呼び出すコンポーネント全体をmobx-react#observer()関数でラップしてください
+   * ラップしないと変更が検知されません
+   * 
+   * また、メソッドは取得できません、すべてundefinedになります。
+   *
+   * @return object メソッド以外の変数を抽出したMap
+   *
+   */
+  mapGetters() {
+    let res: Partial<
+      { [K in keyof this]: this[K] extends Function ? undefined : this[K] }
+    > = {};
+    Object.getOwnPropertyNames((this as any)["__proto__"]).forEach(key => {
+      if (typeof (this as any)[key] !== "function") {
+        (res as any)[key] = (this as any)[key];
+      }
+    });
+    return res as Omit<
+      { [K in keyof this]: this[K] extends Function ? undefined : this[K] },
+      "mapActions" | 'mapGetters'
     >;
   }
 }
