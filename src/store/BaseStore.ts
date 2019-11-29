@@ -56,7 +56,7 @@ export abstract class BaseStore {
   }
 
   /**
-   * このストアに定義された変数の一覧を返します。VuexのmapStateとmapGettersを合わせたような機能を持っています。
+   * このストアに定義された変数とgetterの一覧を返します。VuexのmapStateとmapGettersを合わせたような機能を持っています。
    * また実装の関係上、子ストアも出力されてしまいます。
    * 以下のように使えます
    *

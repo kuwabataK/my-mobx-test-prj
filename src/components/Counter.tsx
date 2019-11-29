@@ -23,7 +23,6 @@ export const Counter = observer(() => {
 
   const { increment } = counterStore.mapActions();
   const { count } = counterStore.mapGetters();
-
   const { superIncrement } = counterStore.childStore.mapActions();
 
   const incrementOutsideOfAction = () => {
