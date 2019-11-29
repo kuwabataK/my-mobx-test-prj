@@ -42,7 +42,7 @@ export abstract class BaseStore {
    */
   mapActions() {
     let res: Partial<
-      { [K in keyof this]: this[K] extends Function ? this[K] : never }
+      { [K in keyof this]: this[K] extends Function ? this[K] : undefined }
     > = {};
     Object.getOwnPropertyNames((this as any)["__proto__"]).forEach(key => {
       if (typeof (this as any)[key] === "function") {
@@ -50,7 +50,7 @@ export abstract class BaseStore {
       }
     });
     return res as Omit<
-      { [K in keyof this]: this[K] extends Function ? this[K] : never },
+      { [K in keyof this]: this[K] extends Function ? this[K] : undefined },
       "mapActions"
     >;
   }
