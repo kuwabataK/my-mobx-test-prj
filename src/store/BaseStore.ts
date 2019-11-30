@@ -36,8 +36,6 @@ export abstract class BaseStore {
    *
    * </code></pre>
    *
-   * また、メソッド以外のメンバは取得できません、すべてundefinedになります
-   *
    * @return object メソッドのみを抽出したMap
    *
    */
