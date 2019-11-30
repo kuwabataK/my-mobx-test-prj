@@ -11,7 +11,7 @@ export const Counter = observer(() => {
   // 以下のuseEffect store.counterStore.countが変化しても発火しない
   useEffect(() => {
     console.log("再レンダリングされたよ！！。でもこのEffectは発火しないよ");
-  });
+  },[counterStore.count]);
 
   // useReactionを使えば変更検知できるようになる
   useReaction(
