@@ -11,7 +11,7 @@ export const Counter = observer(() => {
   // 以下のuseEffect store.counterStore.countが変化しても発火しない
   useEffect(() => {
     console.log("再レンダリングされたよ！！。でもこのEffectは発火しないよ");
-  },[counterStore.count]);
+  }, [counterStore.count]);
 
   // useReactionを使えば変更検知できるようになる
   useReaction(
@@ -21,9 +21,16 @@ export const Counter = observer(() => {
     }
   );
 
+  // mapStore()を使うことで、このストアの下に登録されているStoreの一覧を取得できる
+  const { childStore } = counterStore.mapStore();
+
+  // mapActions()を使うことで、このストアにあるメソッドの一覧を取得することができる
   const { increment } = counterStore.mapActions();
-  const { count } = counterStore.mapGetters();
-  const { superIncrement } = counterStore.childStore.mapActions();
+
+  // mapState()を使うことで、このストアにある変数とgetterの一覧を取得することができる
+  const { count } = counterStore.mapState();
+  
+  const { superIncrement } = childStore.mapActions();
 
   const incrementOutsideOfAction = () => {
     counterStore.count++; // @actionの外でcountを変更するとerrorが発生する(Vuexのmutation errorと同じ)
@@ -32,34 +39,25 @@ export const Counter = observer(() => {
   return (
     <div>
       <Observer>{() => <div>カウンター: {count}</div>}</Observer>
-      <Observer>
-        {() => <p>childStoreのカウンター: {counterStore.childStore.count}</p>}
-      </Observer>
+      <Observer>{() => <p>childStoreのカウンター: {childStore.count}</p>}</Observer>
       <Observer>
         {() => (
-          <p>
-            childStoreのParentカウンター(一番上と同じ値を参照している):{" "}
-            {counterStore.childStore.parentCnt}
-          </p>
+          <p>childStoreのParentカウンター(一番上と同じ値を参照している): {childStore.parentCnt}</p>
         )}
       </Observer>
       <p>
-        <button onClick={() => counterStore.increment()}>
-          カウントを増やす
-        </button>
+        <button onClick={() => counterStore.increment()}>カウントを増やす</button>
       </p>
       <p>
-        <button onClick={() => counterStore.decrement()}>
-          カウントを減らす
-        </button>
+        <button onClick={() => counterStore.decrement()}>カウントを減らす</button>
       </p>
       <p>
-        <button onClick={() => counterStore.childStore.increment()}>
+        <button onClick={() => childStore.increment()}>
           childStoreのincrementメソッドを呼び出す
         </button>
       </p>
       <p>
-        <button onClick={() => counterStore.childStore.parentIncrement()}>
+        <button onClick={() => childStore.parentIncrement()}>
           childStoreのparentIncrementメソッドを呼び出す
         </button>
       </p>
@@ -72,14 +70,10 @@ export const Counter = observer(() => {
         </button>
       </p>
       <p>
-        <button onClick={counterStore.increment}>
-          mapActionsを使わないincrement(動かない)
-        </button>
+        <button onClick={counterStore.increment}>mapActionsを使わないincrement(動かない)</button>
       </p>
       <p>
-        <button onClick={incrementOutsideOfAction}>
-          Storeの外でカウントを操作する
-        </button>
+        <button onClick={incrementOutsideOfAction}>Storeの外でカウントを操作する</button>
       </p>
     </div>
   );
