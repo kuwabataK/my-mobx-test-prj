@@ -21,7 +21,7 @@ export const Counter = observer(() => {
     }
   );
 
-  // mapStore()を使うことで、このストアの下に登録されているStoreの一覧を取得できる
+  // mapModules()を使うことで、このストアの下に登録されているStoreの一覧を取得できる
   const { childModule: childStore } = counterStore.mapModules();
 
   // mapActions()を使うことで、このストアにあるメソッドの一覧を取得することができる

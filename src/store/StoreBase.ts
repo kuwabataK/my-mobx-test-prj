@@ -84,7 +84,7 @@ export abstract class StoreBase {
    *
    * <pre><code>
    *
-   * const { childStore } = store.counterStore.mapStore()
+   * const { childStore } = store.counterStore.mapModules()
    *
    * return <div>{count}</div>
    *
