@@ -1,4 +1,4 @@
-import { CounterStore } from "./CounterStore";
+import { CounterModule } from "./CounterModule";
 import { configure } from "mobx";
 import React, { useContext } from "react";
 import { StoreBase } from "./StoreBase";
@@ -6,7 +6,7 @@ import { StoreBase } from "./StoreBase";
 configure({ enforceActions: "always" });
 
 export class RootStore extends StoreBase {
-  counterStore = new CounterStore(this);
+  counterModule = new CounterModule(this); // counterModuleを登録
 }
 
 export const store = new RootStore(); // Storeのインスタンスを作成

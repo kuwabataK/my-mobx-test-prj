@@ -1,11 +1,11 @@
 import { observable, action } from "mobx";
-import { ChildStore } from "./ChildStore";
-import { CommonStoreBase } from "./CommonStoreBase";
+import { ChildModule } from "./ChildModule";
+import { ModuleBase } from "./ModuleBase";
 
 /**
  * Mobxのカウンターストア
  */
-export class CounterStore extends CommonStoreBase {
+export class CounterModule extends ModuleBase {
   /**
    * カウント
    * (Vuexのstate)
@@ -34,5 +34,5 @@ export class CounterStore extends CommonStoreBase {
    * 下の階層にStoreを登録したいときはnewすれば良い
    * VuexのModule相当の機能
    */
-  childStore = new ChildStore(this.rootStore, this);
+  childModule = new ChildModule(this.rootStore, this);
 }

@@ -1,15 +1,15 @@
 import { computed, observable, action } from "mobx";
 import { RootStore } from "./store";
-import { CounterStore } from "./CounterStore";
-import { CommonStoreBase } from "./CommonStoreBase";
+import { CounterModule } from "./CounterModule";
+import { ModuleBase } from "./ModuleBase";
 
-export class ChildStore extends CommonStoreBase {
+export class ChildModule extends ModuleBase {
   /**
    * 親であるcounterStore
    */
-  private counterStore: CounterStore;
+  private counterStore: CounterModule;
 
-  constructor(store: RootStore, counterStore: CounterStore) {
+  constructor(store: RootStore, counterStore: CounterModule) {
     super(store);
     // コンストラクタでcounterStoreの情報を要求することで、
     // このストアが親であるcounterStoreの実装に依存していることを明示的に示すことができる
@@ -42,6 +42,11 @@ export class ChildStore extends CommonStoreBase {
     this.count += 1;
   }
 
+  /**
+   * 引数で指定された2つの値を現在のcountに足す
+   * @param num1 
+   * @param num2 
+   */
   @action
   superIncrement(num1: number, num2: number) {
     return (this.count = num1 + num2 + this.count);
@@ -54,6 +59,6 @@ export class ChildStore extends CommonStoreBase {
   parentIncrement() {
     // this.rootStoreをつかうことでstore全体を参照することができる
     // 例えばmasterデータやログインIDなど、アプリ全体で一意な値を他のStoreから取得する際に使用する
-    this.rootStore.counterStore.increment();
+    this.rootStore.counterModule.increment();
   }
 }

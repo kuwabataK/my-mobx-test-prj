@@ -2,7 +2,7 @@ type ValueOf<T> = T[keyof T];
 
 /**
  * すべてのストア（rootStoreを含む）のベースになるクラスです
- * rootStore以外では、これを継承したCommonStoreBaseクラスが存在するので、そちらを継承して使用します
+ * rootStore以外では、これを継承したModuleBaseクラスが存在するので、そちらを継承して使用します
  */
 export abstract class StoreBase {
   /**
@@ -79,12 +79,12 @@ export abstract class StoreBase {
   }
 
   /**
-   * このストアの下に定義されたStoreの一覧を返します。
+   * このストアの下に定義されたModuleStoreの一覧を返します。
    * 以下のように使えます
    *
    * <pre><code>
    *
-   * const { childStore } = store.counterStore.mapStores()
+   * const { childStore } = store.counterStore.mapStore()
    *
    * return <div>{count}</div>
    *
@@ -95,7 +95,7 @@ export abstract class StoreBase {
    * @return object Storeのみ抽出したMap
    *
    */
-  mapStore() {
+  mapModules() {
     return this as Omit<
       this,
       ValueOf<{ [K in keyof this]: this[K] extends StoreBase ? never : K }>
