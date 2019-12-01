@@ -1,20 +1,14 @@
-import { Store } from "./store";
-
 type ValueOf<T> = T[keyof T];
-export abstract class BaseStore {
-  /**
-   * 各Storeの中で root storeにアクセスするためのメンバ
-   * これを使うことで、VuexのrootGettersや rootActionのように、Store内で別のStoreにアクセスすることができます
-   **/
-  protected store: Store;
 
-  constructor(store: Store) {
-    this.store = store;
-  }
-
+/**
+ * すべてのストア（rootStoreを含む）のベースになるクラスです
+ * rootStore以外では、これを継承したCommonStoreBaseクラスが存在するので、そちらを継承して使用します
+ */
+export abstract class StoreBase {
   /**
    * このストアに定義されたメソッドの一覧を返します。
    * ここで取得したメソッドはコンポーネントの中で、関数にラップすることなく呼び出せるようになります。
+   * VuexのmapActionsとmapMutationsをあわせたような機能をもっています
    * 例えば以下のように使えます
    *
    * <pre><code>
@@ -48,7 +42,10 @@ export abstract class BaseStore {
     });
     return res as Omit<
       this,
-      "mapActions" | "mapState" | 'mapStore' | ValueOf<{ [K in keyof this]: this[K] extends Function ? never : K }>
+      | "mapActions"
+      | "mapState"
+      | "mapStore"
+      | ValueOf<{ [K in keyof this]: this[K] extends Function ? never : K }>
     >;
   }
 
@@ -66,14 +63,19 @@ export abstract class BaseStore {
    *
    * ただし、プリミティブな値を利用する場合には、mapStateを呼び出すコンポーネント全体をmobx-react#observer()関数でラップしてください
    * ラップしないと変更が検知されません
-   * 
+   *
    * また、返り値をTypeScriptの型で縛っているだけなので、実際にはthisを返すだけです
    *
    * @return object メソッド以外の変数を抽出したMap
    *
    */
   mapState() {
-    return this as Omit<this, ValueOf<{ [K in keyof this]: this[K] extends Function ? K : this[K] extends BaseStore ? K : never }>>;
+    return this as Omit<
+      this,
+      ValueOf<
+        { [K in keyof this]: this[K] extends Function ? K : this[K] extends StoreBase ? K : never }
+      >
+    >;
   }
 
   /**
@@ -87,13 +89,16 @@ export abstract class BaseStore {
    * return <div>{count}</div>
    *
    * </code></pre>
-   * 
+   *
    * また、返り値をTypeScriptの型で縛っているだけなので、実際にはthisを返すだけです
-   * 
+   *
    * @return object Storeのみ抽出したMap
    *
    */
   mapStore() {
-    return this as Omit<this, ValueOf<{ [K in keyof this]: this[K] extends BaseStore ? never : K }>>;
+    return this as Omit<
+      this,
+      ValueOf<{ [K in keyof this]: this[K] extends StoreBase ? never : K }>
+    >;
   }
 }

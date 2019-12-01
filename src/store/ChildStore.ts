@@ -1,15 +1,15 @@
-import { BaseStore } from "./BaseStore";
 import { computed, observable, action } from "mobx";
-import { Store } from "./store";
+import { RootStore } from "./store";
 import { CounterStore } from "./CounterStore";
+import { CommonStoreBase } from "./CommonStoreBase";
 
-export class ChildStore extends BaseStore {
+export class ChildStore extends CommonStoreBase {
   /**
    * 親であるcounterStore
    */
   private counterStore: CounterStore;
 
-  constructor(store: Store, counterStore: CounterStore) {
+  constructor(store: RootStore, counterStore: CounterStore) {
     super(store);
     // コンストラクタでcounterStoreの情報を要求することで、
     // このストアが親であるcounterStoreの実装に依存していることを明示的に示すことができる
@@ -30,7 +30,7 @@ export class ChildStore extends BaseStore {
   get parentCnt() {
     console.log("parentCntが発火したよ");
     // this.counterStoreを使うことで親のStoreを参照することができる
-    // こちらを使うほうが、this.storeを参照するより良い
+    // こちらを使うほうが、this.rootStoreを参照するより良い
     return this.counterStore.count;
   }
 
@@ -52,8 +52,8 @@ export class ChildStore extends BaseStore {
    * rootActionやrootMutation相当の機能を提供する
    */
   parentIncrement() {
-    // this.storeをつかうことでstore全体を参照することができる
+    // this.rootStoreをつかうことでstore全体を参照することができる
     // 例えばmasterデータやログインIDなど、アプリ全体で一意な値を他のStoreから取得する際に使用する
-    this.store.counterStore.increment();
+    this.rootStore.counterStore.increment();
   }
 }
