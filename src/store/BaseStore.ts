@@ -48,7 +48,7 @@ export abstract class BaseStore {
     });
     return res as Omit<
       this,
-      "mapActions" | "mapState" | 'mapStore' | ValueOf<{ [K in keyof this]: this[K] extends Function ? "" : K }>
+      "mapActions" | "mapState" | 'mapStore' | ValueOf<{ [K in keyof this]: this[K] extends Function ? never : K }>
     >;
   }
 
@@ -73,7 +73,7 @@ export abstract class BaseStore {
    *
    */
   mapState() {
-    return this as Omit<this, ValueOf<{ [K in keyof this]: this[K] extends Function ? K : this[K] extends BaseStore ? K : "" }>>;
+    return this as Omit<this, ValueOf<{ [K in keyof this]: this[K] extends Function ? K : this[K] extends BaseStore ? K : never }>>;
   }
 
   /**
@@ -94,6 +94,6 @@ export abstract class BaseStore {
    *
    */
   mapStore() {
-    return this as Omit<this, ValueOf<{ [K in keyof this]: this[K] extends BaseStore ? "" : K }>>;
+    return this as Omit<this, ValueOf<{ [K in keyof this]: this[K] extends BaseStore ? never : K }>>;
   }
 }
