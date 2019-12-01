@@ -44,7 +44,7 @@ export abstract class StoreBase {
       this,
       | "mapActions"
       | "mapState"
-      | "mapStore"
+      | "mapModules"
       | ValueOf<{ [K in keyof this]: this[K] extends Function ? never : K }>
     >;
   }
