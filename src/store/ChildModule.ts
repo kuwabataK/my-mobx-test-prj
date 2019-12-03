@@ -37,17 +37,17 @@ export class ChildModule extends ModuleBase {
   /**
    * カウントを増やす
    */
-  @action
+  @action.bound
   increment() {
     this.count += 1;
   }
 
   /**
    * 引数で指定された2つの値を現在のcountに足す
-   * @param num1 
-   * @param num2 
+   * @param num1
+   * @param num2
    */
-  @action
+  @action.bound
   superIncrement(num1: number, num2: number) {
     return (this.count = num1 + num2 + this.count);
   }

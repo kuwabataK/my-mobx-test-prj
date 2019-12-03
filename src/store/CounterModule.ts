@@ -16,7 +16,7 @@ export class CounterModule extends ModuleBase {
    * カウントを増やす
    * (VuexのMutation)
    */
-  @action
+  @action.bound
   increment() {
     this.count += 1;
   }
@@ -25,7 +25,7 @@ export class CounterModule extends ModuleBase {
    * カウントをへらす
    * (VuexのMutation)
    */
-  @action
+  @action.bound
   decrement() {
     this.count -= 1;
   }

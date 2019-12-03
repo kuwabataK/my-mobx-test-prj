@@ -29,7 +29,7 @@ export const Counter = observer(() => {
 
   // mapState()を使うことで、このストアにある変数とgetterの一覧を取得することができる
   const { count } = counterStore.mapState();
-  
+
   const { superIncrement } = childStore.mapActions();
 
   const incrementOutsideOfAction = () => {
@@ -70,7 +70,7 @@ export const Counter = observer(() => {
         </button>
       </p>
       <p>
-        <button onClick={counterStore.increment}>mapActionsを使わないincrement(動かない)</button>
+        <button onClick={counterStore.increment}>mapActionsを使わないincrement(@action.boundをつけていれば動く)</button>
       </p>
       <p>
         <button onClick={incrementOutsideOfAction}>Storeの外でカウントを操作する</button>
