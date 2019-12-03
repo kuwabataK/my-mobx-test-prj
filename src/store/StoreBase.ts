@@ -7,7 +7,8 @@ type ValueOf<T> = T[keyof T];
 export abstract class StoreBase {
   /**
    * このストアに定義されたメソッドの一覧を返します。
-   * ここで取得したメソッドはコンポーネントの中で、関数にラップすることなく呼び出せるようになります。
+   * ここで取得したメソッドのthisはStoreのクラスにバインドされるので、@action.boundをつけていないメソッドに関しても
+   * コンポーネントの中で、関数にラップすることなく呼び出せるようになります。
    * VuexのmapActionsとmapMutationsをあわせたような機能をもっています
    * 例えば以下のように使えます
    *
@@ -19,7 +20,8 @@ export abstract class StoreBase {
    *
    * </code></pre>
    *
-   * mapActionsを使わずに展開した関数はthisの参照が壊れてしまうので、うまく動かない場合があります。
+   * mapActionsを使わずに展開したメソッドは、@action.boundをつけていない場合
+   * thisの参照が壊れてしまうので、うまく動かない場合があります。
    * 例えば以下のようなコードはうまく動きません
    *
    * <pre><code>
