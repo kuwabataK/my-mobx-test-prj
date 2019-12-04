@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 import { ChildModule } from "./ChildModule";
 import { ModuleBase } from "./ModuleBase";
 
@@ -12,7 +12,15 @@ export class CounterModule extends ModuleBase {
    * (Vuexのstate)
    */
   @observable count = 0;
-
+  
+  /**
+   * カウントの2倍の値を返す
+   * (Vuexのgetters)
+   */
+  @computed
+  get doubleCnt(){
+      return this.count * 2
+  }
   /**
    * カウントを増やす
    * (VuexのMutation)
