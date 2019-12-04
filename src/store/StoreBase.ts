@@ -1,3 +1,4 @@
+import {action} from 'mobx'
 type ValueOf<T> = T[keyof T];
 
 /**
@@ -102,5 +103,18 @@ export abstract class StoreBase {
       this,
       ValueOf<{ [K in keyof this]: this[K] extends StoreBase ? never : K }>
     >;
+  }
+  /**
+   * 継承先のクラスコンストラクタの引数で指定されたobjを自分自身にマージするためのメソッド
+   * 継承先のコンストラクタの中で呼び出す
+   * @param obj マージするObject
+   */
+  @action.bound
+  protected readonly mergeToThis = <T extends StoreBase>(obj?: Partial<T>) => {
+    if (!obj) return
+    Object.keys(obj).forEach(key => {
+      (this as any)[key] = (obj as any)[key]
+    })
+    return
   }
 }

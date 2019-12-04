@@ -6,6 +6,7 @@ import { ModuleBase } from "./ModuleBase";
  * Mobxのカウンターストア
  */
 export class CounterModule extends ModuleBase {
+
   /**
    * カウント
    * (Vuexのstate)
