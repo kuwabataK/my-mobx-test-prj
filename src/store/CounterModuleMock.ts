@@ -13,5 +13,10 @@ export class CounterModuleMock extends ModuleBase implements CounterModule {
     console.log("モックの関数が発火したよ！！！");
   }
 
+  get doubleCnt(): number {
+    console.log("モックの関数が発火したよ！！！");
+    return 0;
+  }
+
   childModule = new ChildModule(this.rootStore, this as any);
 }

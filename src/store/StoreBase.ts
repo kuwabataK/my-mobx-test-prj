@@ -1,4 +1,4 @@
-import {action} from 'mobx'
+import { action } from "mobx";
 type ValueOf<T> = T[keyof T];
 
 /**
@@ -37,13 +37,12 @@ export abstract class StoreBase {
    *
    */
   mapActions() {
-    let res = {};
-    Object.getOwnPropertyNames((this as any)["__proto__"]).forEach(key => {
-      if (typeof (this as any)[key] === "function") {
-        (res as any)[key] = (...args: any) => (this as any)[key](...args);
-      }
-    });
-    return res as Omit<
+    return Object.getOwnPropertyNames((this as any)["__proto__"])
+      .filter(key => typeof (this as any)[key] === "function")
+      .reduce((acc, key) => {
+        acc[key] = (...args: any) => (this as any)[key](...args);
+        return acc;
+      }, {} as any) as Omit<
       this,
       | "mapActions"
       | "mapState"
@@ -111,10 +110,10 @@ export abstract class StoreBase {
    */
   @action.bound
   protected readonly mergeToThis = <T extends StoreBase>(obj?: Partial<T>) => {
-    if (!obj) return
+    if (!obj) return;
     Object.keys(obj).forEach(key => {
-      (this as any)[key] = (obj as any)[key]
-    })
-    return
-  }
+      (this as any)[key] = (obj as any)[key];
+    });
+    return;
+  };
 }
