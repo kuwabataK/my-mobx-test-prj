@@ -37,12 +37,13 @@ export abstract class StoreBase {
    *
    */
   mapActions() {
-    return Object.getOwnPropertyNames((this as any)["__proto__"])
-      .filter(key => typeof (this as any)[key] === "function")
-      .reduce((acc, key) => {
-        acc[key] = (...args: any) => (this as any)[key](...args);
-        return acc;
-      }, {} as any) as Omit<
+    let res = {};
+    Object.getOwnPropertyNames((this as any)["__proto__"]).forEach(key => {
+      if (typeof (this as any)[key] === "function") {
+        (res as any)[key] = (...args: any) => (this as any)[key](...args);
+      }
+    });
+    return res as Omit<
       this,
       | "mapActions"
       | "mapState"
